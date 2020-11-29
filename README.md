@@ -1,11 +1,10 @@
 ---
-title: |
   CS412 Final Project\
   Travelling Salesman Problem\
   Implementations and Analysis of Various Solutions
 ---
 
-![image](images/title.png)
+![image](https://github.com/hurryingauto3/CS412-Algorithms-Final-Project/blob/main/Report/images/title.png){ width=20%, height=20%}
 
 
 Introduction
