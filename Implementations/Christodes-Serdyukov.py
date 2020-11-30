@@ -15,29 +15,22 @@ for edge in edges:
      G.add_edge(edge[0], edge[1])
 
 def PrimMST(G: graph, v):
-    mst = defaultdict(set)
-    visited = [v]
+    mst = graph()
+    mst.add_node(v)
     Edges = []   
-    resultedge = []
     for i in G[v]:
         Edges.append((G.edge_weight((v,i)), v, i))
     heapq.heapify(Edges)
 
     while Edges:
-        #print(Edges)
         cost, start, end = heapq.heappop(Edges)
-        if end not in visited:
-            #print("here")
-            visited.append(end)
-            resultedge.append((start, end, cost))
-            mst[start].add(end)
-            #print(mst[start])
+        if end not in mst:
+            mst.add_node(end)
+            mst.add_edge((start,end), cost)
             for to_next in G[end]:
-                if to_next not in visited:
-                   # print("here")
+                if to_next not in mst:
                     heapq.heappush(Edges, (G.edge_weight((end, to_next)), end, to_next))  
-    print(resultedge)
-    return visited      
+    print(mst)
+    return mst      
     
 lst = PrimMST(G, 1)
-print(lst)
