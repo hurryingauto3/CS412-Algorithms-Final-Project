@@ -5,6 +5,12 @@
 \usepackage{hyperref}
 \usepackage{graphics}
 \usepackage{amssymb}
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{tikz}
+\usetikzlibrary{arrows,automata}
+
 
 \hypersetup{
     colorlinks=false
@@ -48,9 +54,75 @@ The typo in the sentence above is left unfixed intentionally as well, because le
 \newpage
 \section{Introduction}
 The travelling salesman problem has a long history of being a problem of interest in the field of algorithms. It has garnered much attention and there has been a lot of work that has been done on it. In this project we will set out to establish the details of this problem and why it is so tough. We will then investigate 4 algorithms that have become well known in being useful for solving this problem. One of them produces an exact solution and the rest use approximation techniques. We will be using theory and implementation to test the runtimes of this problem and will then present our research in an appropriate format.
+\subsection{Proof: TSP $\in$ NP-hard}
 \section{Design Techniques}
 	\subsection{Exact Solution}
-		\subsubsection{ Held-Karp Algorithm}
+	The exact solution of the travelling salesman problem requires that that each Hamiltonian cycle is travelled and the minimum path of those cycles is found. However, this is an extremely large problem as there will be $n!$ cycles for a complete graph of size $n$. The dynamic programming approach called the Held-Karp algorithm reduces this time complexity to $O(n^22^n)$. It does so by dividing the problem into sub problems.  A very simple method is to visulize this idea using a tree. \paragraph{}
+	Let us begin this explanation, without loss of generality, with a complete graph, $K_4,$ that does not contain loops. 
+\begin{center}
+\begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,scale = 1,transform shape]
+
+  \node[state] (a) [n/a of=] {$a$};
+  \node[state] (b) [right of=a] {$b$};
+  \node[state] (c) [below of=a] {$c$};
+  \node[state] (d) [below of=b] {$d$};
+
+  \path (a) edge              node {} (b)
+        (b) edge              node {} (a)
+        (a) edge              node {} (c)
+        (c) edge              node {} (a)
+        (a) edge              node {} (d)
+        (d) edge              node {} (a)
+        (b) edge              node {} (c)
+        (c) edge              node {} (b)
+        (b) edge              node {} (d)
+        (d) edge              node {} (b)
+        (c) edge              node {} (d)
+        (d) edge              node {} (c);
+
+\end{tikzpicture}
+\end{center}
+Starting from vertex a, or any vertex to maintain generality, we can build a decision tree that traverses each path, this represents the the power set of the graph
+\begin{center}
+    \begin{tikzpicture}[sibling distance=10em,
+  every node/.style = {shape=circle, rounded corners,
+    draw, align=center,
+    top color=white, bottom color=white!5}, scale=0.8]
+    \tikzstyle{level 1}=[sibling distance=25mm] 
+    \tikzstyle{level 2}=[sibling distance=15mm] 
+    \tikzstyle{level 3}=[sibling distance=10mm] 
+    
+  \node {$a$}
+    child { node {$b$} 
+        child {node {$c$}
+        child {node {$d$}
+        child {node {$a$}}}}
+        child {node {$c$}
+        child {node {$d$}
+        child {node {$a$}}}}}
+    child { node {$c$} 
+        child {node {$b$}
+        child {node {$d$}
+        child {node {$a$}}}}
+        child {node {$c$}
+        child {node {$d$}
+        child {node {$a$}}}}}
+    child { node {$d$} 
+        child {node {$c$}
+        child {node {$d$}
+        child {node {$a$}}}}
+        child {node {$c$}
+        child {node {$d$}
+        child {node {$a$}}}}};
+\end{tikzpicture}
+\end{center}
+The idea behind the exhaustive, brute-force approach is to traverse each path in the tree and then decide, this creates a very large problem to solve. The idea behind the dynamic approach is to start from the level 4 of the tree, which means we are now at the last vertex in the path and the next vertex from that completes the cycle and takes us back to the source node. This forms the smallest sub problem in the dynamic program. The next step would be go a level higher in the tree, which means we will now check the path length if we are reaching the source node from vertex $v$ and, we are reaching reaching vertex, $v$, from vertex, $u$ s.t. $u,v \in V$ where $V$ is the set of all vertices. We will keep doing this, and at each level we will decide the minimum path length of between n paths that are emerging from one vertex, this is done until the source node of the tree is reached, resulting in the minimum path. The dynamic algorithm can be generalised as a cost function, $g$, as follows:
+$$g(i, S) = min_{k\in S} \bigg\{c_{ik} + g(k, S-\{k\})\bigg\}$$
+s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the cost of some going from vertex $i$ to $k$. 
+	
+\subsubsection{Held-Karp Algorithm}
+		
+		
 		
 	\subsection{ Approximate Solutions}
 		\subsubsection {Nearest Neighbour Algorithm}
