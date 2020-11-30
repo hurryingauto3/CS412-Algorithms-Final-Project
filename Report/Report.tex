@@ -6,7 +6,6 @@
 \usepackage{graphics}
 \usepackage{amssymb}
 \usepackage[english]{babel}
-\usepackage[utf8x]{inputenc}
 \usepackage{amsmath}
 \usepackage{tikz}
 \usetikzlibrary{arrows,automata}
@@ -62,7 +61,7 @@ The travelling salesman problem has a long history of being a problem of interes
 \begin{center}
 \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=3.5cm,scale = 1,transform shape]
 
-  \node[state] (a) [n/a of=] {$a$};
+  \node[state] (a) [] {$a$};
   \node[state] (b) [right of=a] {$b$};
   \node[state] (c) [below of=a] {$c$};
   \node[state] (d) [below of=b] {$d$};
