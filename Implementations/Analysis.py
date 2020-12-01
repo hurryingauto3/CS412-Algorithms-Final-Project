@@ -20,26 +20,50 @@ def Empirical_Analysis(n, repeat):
     cs_runtimes = []
     pe_runtimes = []
     
-    n_values = np.array([i for i in range(1, n)])
-    
-    for i in n_values:
-        
-        G = complete_graph(i)
-        start_time = time.time()
-        chirstoalgo(G, 1)
-        cs_runtimes.append((time.time()-start_time))
-        
-        
-#         nn_runtimes.append(min(timeit.Timer(partial(n_neighbors, G)).repeat(3, repeat))/repeat)
-#         cs_runtimes.append(min(timeit.Timer(chirstoalgo(G, 1)).repeat(3, repeat))/repeat)
-#         if (i < 10):
-#             hk_runtimes.append(min(timeit.Timer(partial(held_karp, G)).repeat(3, repeat))/repeat)
+    n_values = np.array([i for i in range(n)])
+    n_ = 0
 
+    while(n_ < n):
+        cs_sum_time = 0
+        G = complete_graph(n)
+        G_ = copy.deepcopy(G)
+        r = 0
+        while (r < repeat):
+            #Recording time for christofides
+            start = time.time()
+            chirstoalgo(G, 1)
+            cs_sum_time = time.time() - start
+            G = copy.deepcopy(G_)
+            #Recording time for held-karp
+            start = time.time()
+            chirstoalgo(G, 1)
+            hk_sum_time = time.time() - start
+            G = copy.deepcopy(G_)
+            #Recording time for Nearest Neighbor
+            start = time.time()
+            chirstoalgo(G, 1)
+            nn_sum_time = time.time() - start
+            G = copy.deepcopy(G_)
+            #Recording time for Pairwise Exchange
+            start = time.time()
+            chirstoalgo(G, 1)
+            pe_sum_time = time.time() - start
+            G = copy.deepcopy(G_)
+            r += 1
+        cs_runtimes.append(cs_sum_time/repeat)
+        hk_runtimes.append(cs_sum_time/repeat)
+        nn_runtimes.append(cs_sum_time/repeat)
+        pe_runtimes.append(cs_sum_time/repeat)        
+        n_ += 1
+    
+
+    
     fig, axs = plt.subplots(2, 2)
     axs[0, 0].plot(n_values, hk_runtimes)
     axs[0, 0].set_title("Held-Karp")
     axs[1, 0].plot(n_values, nn_runtimes)
     axs[1, 0].set_title("Nearest Neighbor")
+
     axs[0, 1].plot(n_values, cs_runtimes)
     axs[0, 1].set_title("Christofides")
     axs[1, 1].plot(n_values, pe_runtimes)
