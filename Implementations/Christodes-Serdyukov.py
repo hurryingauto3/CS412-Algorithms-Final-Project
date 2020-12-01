@@ -2,6 +2,8 @@ from collections import defaultdict
 import heapq
 import copy 
 import networkx as nx
+import time 
+import random 
 
 # Graph1 = nx.Graph()
 # nodes1 = [1,2,3,4,5]
@@ -14,6 +16,12 @@ import networkx as nx
 # Graph1.add_weighted_edges_from(edges1)
 
 # T = nx.minimum_spanning_tree(Graph1)
+
+def complete_graph(n):
+    G = nx.complete_graph(n, create_using = nx.Graph)
+    for u, v, d in G.edges(data=True):
+        d['weight'] = random.randrange(1, 10)
+    return G
 
 def odd_vertices(T: nx.Graph):
     odd_set = set()
@@ -55,4 +63,11 @@ def chirstoalgo(G, v):
     tsp_path.append(v)
     return tsp_path
     
-chirstoalgo(Graph1, 5)
+runtimes = []
+for i in range(1, 100):
+    G1 = complete_graph(i)
+    start = time.time()
+    chirstoalgo(G1, 0)
+    runtimes.append(time.time() - start)
+
+print(runtimes)
