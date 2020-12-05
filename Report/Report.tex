@@ -7,7 +7,11 @@
 \usepackage{amssymb}
 \usepackage[english]{babel}
 \usepackage{amsmath}
+\usepackage[classfont=bold]{complexity}
 \usepackage{tikz}
+\usepackage{amsthm}
+\usepackage[ruled, linesnumbered, noend]{algorithm2e}
+\renewcommand{\thealgocf}{}
 \usetikzlibrary{arrows,automata}
 
 
@@ -125,9 +129,56 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
 		
 	\subsection{ Approximate Solutions}
 		\subsubsection {Nearest Neighbour Algorithm}
-		\subsubsection {Pairwise Exchange Method}
-		\subsubsection {Christofides–Serdyukov Algorithm}
-		
+    \subsubsection {Pairwise Exchange Method}
+    \newpage
+    \subsubsection {Christofides–Serdyukov Algorithm}
+    The Christofides–Serdyukov algorithm is another approximation algorithm, that gives a solution that is 
+    relatively close to the optimal TSP tour. First, we will take a look at a simpler approximation 
+    algorithm that results in an approximation ratio of 2.
+
+    \begin{algorithm*}
+      \KwIn{A weighted complete graph $G$ and a root vertex $v$}
+      \KwOut{A hamiltonian cycle $H$.}
+      compute a minimum spanning tree $T$ for $G$ using \textsc{MST-PRIM}($G, v$) \\
+      let $H$ be the list of vertices, ordered according to when they are first visited in a
+      preorder tree walk of $T$ \\
+      \Return{\upshape the hamiltonian cycle $H$}
+  \caption{\textsc{approx-tsp-tour}}
+  \end{algorithm*}
+    
+  This algorithm relies on the assumption that the weights of the edges of the graph conform to the triangle inequality and that the graph is complete.
+  Let $c(u,v)$ be the weight of 
+  an edge. Then, \[c(u,w) \leq c(u,v) + c(v, w) \]
+  In simpler words, removing an intermediate stop would never increase the cost. If the edges do not conform to the triangle inequality, then a polynomial-time approximation
+  with a constant approximation ratio does not exist, unless $\P = \NP$. The proof of this
+  is outside the scope of this paper. This version of the TSP is also called a metric TSP since 
+  the edge weights form a metric space.   
+  \paragraph{} Let's look at a short proof that \textsc{approx-tsp-tour} is a poly-time 2- approximation algorithm. 
+  \begin{proof}
+    Let $H^*$ denote the optimal TSP tour for a set of vertices. We can obtain a spanning tree $T$ by eliminating an edge from 
+    $H^*$. This provides a lower bound for cost of $H*$. 
+    \[c(T) \leq c(H^*)\] A full walk $W$ of $T$ would visit every edge of $T$ twice, which means   
+    \[c(W) = 2\cdot c(T) \implies c(W) \leq 2\cdot c(H^*)\]
+  Since, the triangle inequality is being obeyed, we can remove repeated visits in $W$ with a guarantee that 
+  the cost will not increase.
+  Let $H$ be the cycle corresponding to a pre-order walk in $T$. This hamiltonian cycle is the cycle that is computed by 
+  \textsc{approx-tsp-tour}. Since $H$ is obtained by deleting vertices from $W$,
+  \[c(H) \leq c(W)\]
+  This implies that, \[c(H) \leq 2\cdot c(H^*)\] which completes the proof. 
+  \end{proof}
+
+  \textbf{An Improved Algorithm:}  \paragraph{}
+  
+  This algorithm can be improved by adding a few more graph operations that can further optimize our solution.
+  The improved algorithm by Christofides relies on the same assumptions (triangle inequality and complete graph). 
+  However, it utilizes other graph properties to improve the approximation ratio. These facts/properties are:
+  \begin{enumerate}
+    \item The number of vertices with odd degree in a graph is always even, according to the handshaking lemma. 
+    \item A graph that has all vertices with even degree will have an Eulerian tour. 
+    \item Given a complete weighted graph, 
+  \end{enumerate}  
+  
+  
 \section{Theoretical Runtime Analysis and Comparison}
 \section{Empirical Runtime Analysis and Comparison}
 \section{Conclusion}
