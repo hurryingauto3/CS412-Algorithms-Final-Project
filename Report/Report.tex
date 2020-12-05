@@ -130,6 +130,46 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
 	\subsection{ Approximate Solutions}
 		\subsubsection {Nearest Neighbour Algorithm}
     \subsubsection {Pairwise Exchange Method}
+    First proposed in 1958 by G A Croes, It is a local search algorithm that iteratively optimizes an arbitrary path. The algorithm works by iterating over all possible combination of two edges that do not share a common vertices and replacing them in a particular manner.
+    Take the following two edges (1,4) and (2,3):
+  \begin{center}
+    \begin{tikzpicture}[auto, node distance=3cm, every loop/.style={},thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+      \node[main node] (1) {1};
+      \node[main node] (2) [below of=1] {2};
+      \node[main node] (3) [below of=2] {3};
+      \node[main node] (4) [below right of=1] {4};
+      
+    
+      \path[every node/.style={font=\sffamily\small}]
+        (1) edge node [left] {$w_{1}$} (4)
+    
+        (3) edge node [right] {$w_{2}$} (2);
+        
+    \end{tikzpicture}
+  \end{center}
+    
+    Pairwise exchange will select these two edges and replace them with edges such that the new edges are (1,2) and (3,2):
+    \begin{center}
+    \begin{tikzpicture}[auto, node distance=3cm, every loop/.style={},thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+      \node[main node] (1) {1};
+      \node[main node] (2) [below of=1] {2};
+      \node[main node] (3) [below of=2] {3};
+      \node[main node] (4) [below right of=1] {4};
+      
+    
+      \path[every node/.style={font=\sffamily\small}]
+        (1) edge node [left] {$w_{3}$} (2)
+    
+        (3) edge node [right] {$w_{4}$} (4);
+    
+    
+        
+    \end{tikzpicture}
+    \end{center}
+    
+    The sum of weights of the two new edges and the deleted edges is compared to see if there has been a decrease or not. If replacing the edges brings about a decrease in the total weight, then the replaced edges are preserved. Otherwise, the old edges are kept and some other combination of edges are tested for replacement.
     \newpage
     \subsubsection {Christofides–Serdyukov Algorithm}
     The Christofides–Serdyukov algorithm is another approximation algorithm, that gives a solution that is 
@@ -180,6 +220,8 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
   
   
 \section{Theoretical Runtime Analysis and Comparison}
+\subsection{Pairwise Exchange Method}
+Each time a while loop runs, it takes a total $O(n^2)$ times. The while loop in itself will only stop when the total weight of the hamiltonian patn converges to an optimal value. In theory, the while loop does not converge at all. Every time we get a path, we can iterate over all of the possible edge exchanges to optimize the path, so this algorithm is an exhaustive search over all of the possible optimal solutions. Hence, the time complexity is O(n!).
 \section{Empirical Runtime Analysis and Comparison}
 \section{Conclusion}
 \newpage
