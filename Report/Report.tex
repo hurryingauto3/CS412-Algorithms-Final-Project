@@ -207,21 +207,68 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
   This implies that, \[c(H) \leq 2\cdot c(H^*)\] which completes the proof. 
   \end{proof}
 
-  \textbf{An Improved Algorithm:}  \paragraph{}
+  {\large{\textbf{An Improved Algorithm:}}}  \paragraph{}
   
   This algorithm can be improved by adding a few more graph operations that can further optimize our solution.
   The improved algorithm by Christofides relies on the same assumptions (triangle inequality and complete graph). 
   However, it utilizes other graph properties to improve the approximation ratio. These facts/properties are:
   \begin{enumerate}
-    \item The number of vertices with odd degree in a graph is always even, according to the handshaking lemma. 
-    \item A graph that has all vertices with even degree will have an Eulerian tour. 
-    \item Given a complete weighted graph, 
-  \end{enumerate}  
-  
+    \item[Fact 1:] The number of vertices with odd degree in a graph is always even, according to the handshaking lemma. 
+    \item[Fact 2:] A graph that has all vertices with even degree will have an Eulerian tour. 
+    \item[Fact 3:] Given a complete weighted graph with an even number of vertices, a minimal weight perfect matching can be found in polynomial 
+     time. Specifically, it can be computed in $O(|E||V|^2)$  using the Blossom algorithm by Jack Edmonds.
+  \end{enumerate} 
+  \begin{algorithm*}
+    \KwIn{A weighted, complete graph $G$, and a root vertex $v$.}
+    \KwOut{A circuit $\Gamma$}
+    compute a minimum spanning tree $T$ for $G$ using \textsc{mst-prim}($G, v$) \\
+    let $O$ be the set of vertices with odd degree in $T$ \\
+    find an induced subgraph $G'$ given by vertices in $O$ \\
+    find a minimum-weight perfect matching $M$ in $G'$ \\
+    combine the edges of $M$ and $T$ to form an Eulerian multigraph $M^*$ \\
+    find an Eulerian circuit $\Gamma$ in $M^*$ \\
+    make $\Gamma$ a Hamiltonian cycle by skipping repeated vertices \\
+    \Return{\upshape the Hamiltonian cycle $H$}
+    \caption{\textsc{Christofides-Seryukov}}
+\end{algorithm*}
+
   
 \section{Theoretical Runtime Analysis and Comparison}
 \subsection{Pairwise Exchange Method}
 Each time a while loop runs, it takes a total $O(n^2)$ times. The while loop in itself will only stop when the total weight of the hamiltonian patn converges to an optimal value. In theory, the while loop does not converge at all. Every time we get a path, we can iterate over all of the possible edge exchanges to optimize the path, so this algorithm is an exhaustive search over all of the possible optimal solutions. Hence, the time complexity is O(n!).
+=======
+  Initially, a minimum spanning tree $T$ is constructed. Then from $T$, we add vertices with odd degree to the set $O$. 
+  Then we create a subgraph: $G' = G[O]$, i.e. a subgraph induced by the vertices in $O$. Due to Fact 1, this subgraph has 
+  even number of vertices. We then find a minimum weight perfect matching $M$ on $G'$, add this matching to the MST $T$, creating 
+  an Eulerian multigraph $M^*$. This multigraph will have all vertices having an even degree. This makes it possible for us 
+  to find an Eulerian circuit $\Gamma$ in $M^*$. We then reduce $\Gamma$ to a Hamiltonian circuit using the triangle inequality 
+  property to remove repeated vertices. The resulting circuit is our approximate solution to the problem. 
+  \paragraph{}
+  This algorithm is a $\frac{3}{2}$-approximation algorithm. Let us look at the proof of this. 
+  \begin{proof}
+    Let $H^*$ be the optimal TSP tour and $c(H^*)$ be its weight. 
+    Since $T$ is an MST in $G$, \[c(T) \leq c(H^*)\] 
+    Let $R$ be the solution to the TSP problem on subgraph $G'$. This means that $c(R) \leq c(H^*)$. We can partition the minimum weight perfect matching 
+    on subgraph $G'$. The cost of these partitions is going to sum to $c(R)$; therefore, the smaller of these two partitions is 
+    going to be at most $c(R)/2$. Since $M$ is a minimum weight perfect matching on $G'$, will be at most smaller than the partitions of $R$. 
+    Therefore, \[c(M) \leq \frac{c(R)}{2}\]
+    And so, \[c(T) + c(M) \leq c(H^*) + \frac{c(R)}{2} \leq \frac{3}{2} \cdot c(H^*)\]
+    Because of the triangle inequality, short cuts will lead to a better cost. Therefore, 
+    \[c(H) \leq c(T) + c(M) \] where $H$ is the approximate tour returned by the Christofides-Seryukov algorithm. This leads to
+    \[c(H) \leq \frac{3}{2} \cdot c(H^*)\]
+    which concludes our proof.
+  \end{proof}
+
+  \textbf{Analysis:} \paragraph{}
+  \textsc{approx-tsp-tour} is an $O(n)$ algorithm since all operations in this algorithm are linear and if Prim's algorithm is 
+  implemented using adjacency lists and binary heaps. Otherwise, Prim's algorithm would be $O(n^2)$ in the 
+  case of adjacency matrix and would dominate the runtime of \textsc{approx-tsp-tour} making it $O(n^2)$.
+  \paragraph{} The time complexity of the Christofides–Serdyukov algorithm depends on the most expensive operation in the 
+  algorithm - finding a minimum weight perfect matching (line 4). This operation is implemented using the Blossom algorithm, which is $O(n^3)$. All the other 
+  processes are linear, which means that this algorithm would be $O(n^3)$, where $n$ is the number of vertices. 
+
+  \section{Theoretical Runtime Analysis and Comparison}
+
 \section{Empirical Runtime Analysis and Comparison}
 \section{Conclusion}
 \newpage
@@ -231,6 +278,8 @@ Each time a while loop runs, it takes a total $O(n^2)$ times. The while loop in 
 	\item \url{https://en.wikipedia.org/wiki/Travelling_salesman_problem#:~:text=The%20travelling%20salesman%20problem%20}
 	\item Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein. 2009. Introduction to Algorithms, Third Edition (3rd. ed.)
 	\item David L. Applegate, Robert E. Bixby, Vasek Chvatal, and William J. Cook. 2007. The Traveling Salesman Problem: A Computational Study. Princeton University Press, USA.
+	\item Michael T. Goodrich, Roberto Tamassia. 2014. Algorithm Design and Applications. Wiley, USA. 
+	\item Christofides. 1976. Worst-case analysis of a new heuristic for the travelling salesman problem, Report 388, Graduate School of Industrial Administration, CMU.
 \end{enumerate}
 
 
