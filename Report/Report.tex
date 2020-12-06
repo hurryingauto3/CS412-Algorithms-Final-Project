@@ -129,6 +129,11 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
 		
 	\subsection{ Approximate Solutions}
 		\subsubsection {Nearest Neighbour Algorithm}
+		Nearest Neighbor is one of the approximate solutions to the problem of TSP that finds the cost of travelling from a point and returning back to the original point. To describe the problem in other words, a salesman starts from a city and visits the nearest unvisited city until they have been visited and returns back to the starting city. \newline \newline
+		The algorithm is as follows: \newline
+		Step 1.Choose any starting vertex. \newline
+        Step 2.Whenever you reach any vertex, look at the weights of all the edges that lead to vertices you haven’t visited yet. Choose the one that has the least weight. \newline
+        Step 3.Repeat step 2 until you’ve reached the last vertex. Else go back to the starting point.
     \subsubsection {Pairwise Exchange Method}
 
      First proposed in 1958 by G A Croes, It is a local search algorithm that iteratively optimizes an arbitrary path. The algorithm works by iterating over all possible combination of two edges that do not share common vertices and replacing them with another edge in a manner such that the total weight of the new edges is less than the total weigt of the deleted edges.
@@ -292,7 +297,21 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
 
   
 \section{Theoretical Runtime Analysis and Comparison}
-\subsection{Pairwise Exchange Method}
+\subsection{Nearest Neighbor}
+Talking about the nearest neighbor, we can say that it is not optimal. This is because if we consider the brute-force approach, we get an accurate answer. Brute-force calculates the total cost of each Hamilton circuit and returns the minimum out of them. Hamilton circuit is a circuit where it travels to every vertex only once. As it can be seen that the cost of brute force gives us 23 whereas in nearest neighbor, even if we start from any vertex, we still end up with the cost that is greater than 23. However, nearest neighbor is efficient because it does not require to traverse through all the possible edges instead it uses the least weight whereas brute force calculates all possibilities taking n!. Nearest neighbor is $n^2$ because at each point, we need to find its nearest neighbor so that is n. And computing the distance from one point to all the other is n. So total is $O(n^2)$. \newline
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=5cm]{Graph.PNG}
+    \label{fig:galaxy}
+\end{figure} \newline
+\textbf{Nearest Neighbor} \newline
+\textbf{Start at A:} A, B, D, C, A. Total cost = 30 \newline
+\textbf{Start at B:} B, D, A, C, B. Total cost = 25 \newline
+\textbf{Start at C:} C, B, D, A, C. Total cost = 25 \newline
+\textbf{Start at D:} D, B, C, A, D. Total cost = 25 \newline \newline
+\textbf{Brute force} \newline
+\textbf{Start at A:} A, B, C, D, A; Total cost = 23
+\subsection{Christofides–Serdyukov Algorithm}
 Each time a while loop runs, it takes a total $O(n^2)$ times. The while loop in itself will only stop when the total weight of the hamiltonian patn converges to an optimal value. In theory, the while loop does not converge at all. Every time we get a path, we can iterate over all of the possible edge exchanges to optimize the path, so this algorithm is an exhaustive search over all of the possible optimal solutions. Hence, the time complexity is O(n!).
 =======
   Initially, a minimum spanning tree $T$ is constructed. Then from $T$, we add vertices with odd degree to the set $O$. 
@@ -325,13 +344,19 @@ Each time a while loop runs, it takes a total $O(n^2)$ times. The while loop in 
   algorithm - finding a minimum weight perfect matching (line 4). This operation is implemented using the Blossom algorithm, which is $O(n^3)$. All the other 
   processes are linear, which means that this algorithm would be $O(n^3)$, where $n$ is the number of vertices. 
 
-  \section{Theoretical Runtime Analysis and Comparison}
 
     \subsection{Pairwise Exchange Method}
 Each time a while loop runs, it takes a total $O(n^2)$ times. The while loop in itself will only stop when the total weight of the hamiltonian path converges to an optimal value. In principal, the algorithm is doing an exhaustive search through all the possible hamiltonian paths of a graph. Every time we get a path, we can iterate over all of the possible edge exchanges to optimize the path. As stated in section 2.1, there are n! hamiltonian paths to iterate over in total. Hence, the time complexity is $O(n!)$.
 =======
 
 \section{Empirical Runtime Analysis and Comparison}
+\subsection{Nearest Neighbor}
+Talking about the nearest neighbor algorithm, we see from the graph below that it runs extremely fast and is efficient as compared to the brute force algorithm. However, as mentioned earlier nearest neighbor is not optimal as it does not give us the accurate answer. The reason why the algorithm runs so fast is because it does not traverse over every path in the complete graph. However, it only traverses over those nodes which are not visited and have the least weight amongst them that are connected.
+\begin{figure}[htp]
+    \centering
+    \includegraphics[width=5cm]{NN1fig2.png}
+    \label{fig:galaxy}
+\end{figure}
 \section{Conclusion}
 \newpage
 \section{References}
