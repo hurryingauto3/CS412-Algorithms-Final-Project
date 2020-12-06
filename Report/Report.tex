@@ -130,6 +130,7 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
 	\subsection{ Approximate Solutions}
 		\subsubsection {Nearest Neighbour Algorithm}
     \subsubsection {Pairwise Exchange Method}
+
      First proposed in 1958 by G A Croes, It is a local search algorithm that iteratively optimizes an arbitrary path. The algorithm works by iterating over all possible combination of two edges that do not share common vertices and replacing them with another edge in a manner such that the total weight of the new edges is less than the total weigt of the deleted edges.
     Take the following two edges $u$ and $v$ and let their weights be $w_{1}$ and $w_{2}$ (The complete graph is not shown):
   \begin{center}
@@ -145,10 +146,27 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
         (1) edge node [left] {edge $u$,weight $w_1$} (4)
     
         (3) edge node [right] {edge $v$,weight $w_2$} (2);
+
+    First proposed in 1958 by G A Croes, It is a local search algorithm that iteratively optimizes an arbitrary path. The algorithm works by iterating over all possible combination of two edges that do not share a common vertices and replacing them in a particular manner.
+    Take the following two edges (1,4) and (2,3):
+  \begin{center}
+    \begin{tikzpicture}[auto, node distance=3cm, every loop/.style={},thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+      \node[main node] (1) {1};
+      \node[main node] (2) [below of=1] {2};
+      \node[main node] (3) [below of=2] {3};
+      \node[main node] (4) [below right of=1] {4};
+      
+    
+      \path[every node/.style={font=\sffamily\small}]
+        (1) edge node [left] {$w_{1}$} (4)
+    
+        (3) edge node [right] {$w_{2}$} (2);
+
         
     \end{tikzpicture}
   \end{center}
-    
+
     Pairwise exchange will select these two edges and replace them with edges such that the new edges are $uv_{1}$ and $uv_{2}$:
     \begin{center}
     \begin{tikzpicture}[auto, node distance=3cm, every loop/.style={},thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
@@ -163,12 +181,29 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
         (1) edge node [left] {edge $uv_{1}$,weight $w_3$} (2)
     
         (3) edge node [right] {edge $uv_{2}$,weight $w_4$} (4);
+
+    Pairwise exchange will select these two edges and replace them with edges such that the new edges are (1,2) and (3,2):
+    \begin{center}
+    \begin{tikzpicture}[auto, node distance=3cm, every loop/.style={},thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
+
+      \node[main node] (1) {1};
+      \node[main node] (2) [below of=1] {2};
+      \node[main node] (3) [below of=2] {3};
+      \node[main node] (4) [below right of=1] {4};
+      
+    
+      \path[every node/.style={font=\sffamily\small}]
+        (1) edge node [left] {$w_{3}$} (2)
+    
+        (3) edge node [right] {$w_{4}$} (4);
+
     
     
         
     \end{tikzpicture}
     \end{center}
     
+
     The following condition is checked, everytime an edge exchange is done:
     
     \[w_{3}+w_{4} - (w_{1} +w_{2})<0\]
@@ -190,6 +225,9 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
     \end{algorithm*}        
     
     Each time the algorithm runs, it checks for each possible edge exchange in a given Hamiltonian path and seeks to decrease the total weight of the path. Hence, each time the Algorithm runs, a new path is produced whose total weight may be further minimized. Although, a $termination condition$ may be added to let the outer while loop run for a specified number of sequences before giving out the result in order to avoid having to search across all possible n! paths.
+
+    The sum of weights of the two new edges and the deleted edges is compared to see if there has been a decrease or not. If replacing the edges brings about a decrease in the total weight, then the replaced edges are preserved. Otherwise, the old edges are kept and some other combination of edges are tested for replacement.
+
     \newpage
     \subsubsection {Christofides–Serdyukov Algorithm}
     The Christofides–Serdyukov algorithm is another approximation algorithm, that gives a solution that is 
@@ -251,7 +289,12 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
     \Return{\upshape the Hamiltonian cycle $H$}
     \caption{\textsc{Christofides-Seryukov}}
 \end{algorithm*}
+
   
+\section{Theoretical Runtime Analysis and Comparison}
+\subsection{Pairwise Exchange Method}
+Each time a while loop runs, it takes a total $O(n^2)$ times. The while loop in itself will only stop when the total weight of the hamiltonian patn converges to an optimal value. In theory, the while loop does not converge at all. Every time we get a path, we can iterate over all of the possible edge exchanges to optimize the path, so this algorithm is an exhaustive search over all of the possible optimal solutions. Hence, the time complexity is O(n!).
+=======
   Initially, a minimum spanning tree $T$ is constructed. Then from $T$, we add vertices with odd degree to the set $O$. 
   Then we create a subgraph: $G' = G[O]$, i.e. a subgraph induced by the vertices in $O$. Due to Fact 1, this subgraph has 
   even number of vertices. We then find a minimum weight perfect matching $M$ on $G'$, add this matching to the MST $T$, creating 
@@ -283,8 +326,11 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
   processes are linear, which means that this algorithm would be $O(n^3)$, where $n$ is the number of vertices. 
 
   \section{Theoretical Runtime Analysis and Comparison}
+
     \subsection{Pairwise Exchange Method}
 Each time a while loop runs, it takes a total $O(n^2)$ times. The while loop in itself will only stop when the total weight of the hamiltonian path converges to an optimal value. In principal, the algorithm is doing an exhaustive search through all the possible hamiltonian paths of a graph. Every time we get a path, we can iterate over all of the possible edge exchanges to optimize the path. As stated in section 2.1, there are n! hamiltonian paths to iterate over in total. Hence, the time complexity is $O(n!)$.
+=======
+
 \section{Empirical Runtime Analysis and Comparison}
 \section{Conclusion}
 \newpage
