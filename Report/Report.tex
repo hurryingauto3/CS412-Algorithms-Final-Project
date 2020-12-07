@@ -125,13 +125,14 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
 		
 		
 		
-	\subsection{ Approximate Solutions}
-		\subsubsection {Nearest Neighbour Algorithm}
-		Nearest Neighbor is one of the approximate solutions to the problem of TSP that finds the cost of travelling from a point and returning back to the original point. To describe the problem in other words, a salesman starts from a city and visits the nearest unvisited city until they have been visited and returns back to the starting city. \newline \newline
+\subsection{ Approximate Solutions}
+\subsubsection {Nearest Neighbour Algorithm}
+		Nearest Neighbor is one of the approximate solutions to the problem of TSP that finds the cost of travelling from a point and returning back to the original point. To describe the problem in other words, a salesman starts from a city and visits the nearest unvisited city until they have been visited and returns back to the starting city. The algorithm is easy to implement but it does miss shorter paths which does not make it optimal and hence, an approximation.\newpage
 		The algorithm is as follows: \newline
-		Step 1.Choose any starting vertex. \newline
-        Step 2.Whenever you reach any vertex, look at the weights of all the edges that lead to vertices you haven’t visited yet. Choose the one that has the least weight. \newline
-        Step 3.Repeat step 2 until you’ve reached the last vertex. Else go back to the starting point.
+		1.  Choose any starting vertex. \newline
+        2.  Whenever you reach any vertex, look at the weights of all the edges that lead to vertices you haven’t visited yet. Choose the one that has the least weight. \newline
+        3.  Repeat step 2 until you’ve reached the last vertex. Else go back to the starting point. \newline \newline
+        The algorithm is only an approximation but it can be improved by repeating the process and starting from a different vertex each time. This does not mean that the algorithm will give an accurate answer but the chances to get a close to an accurate answer may improve. This is because on each iteration, it only considers the least cost edge whereas it is possible that there could be a path that could have an overall cost that could be less.   
     \subsubsection {Pairwise Exchange Method}
 
      First proposed in 1958 by G A Croes, It is a local search algorithm that iteratively optimizes an arbitrary path. The algorithm works by iterating over all possible combination of two edges that do not share common vertices and replacing them with another edge in a manner such that the total weight of the new edges is less than the total weigt of the deleted edges.
@@ -149,6 +150,8 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
         (1) edge node [left] {edge $u$,weight $w_1$} (4)
     
         (3) edge node [right] {edge $v$,weight $w_2$} (2);
+    \end{tikzpicture}    
+    \end{center}
 
     First proposed in 1958 by G A Croes, It is a local search algorithm that iteratively optimizes an arbitrary path. The algorithm works by iterating over all possible combination of two edges that do not share a common vertices and replacing them in a particular manner.
     Take the following two edges (1,4) and (2,3):
@@ -186,6 +189,9 @@ s.t. $i$ is the source vertex, $S$ is the set of all vertices, $c_{ik}$ is the c
         (3) edge node [right] {edge $uv_{2}$,weight $w_4$} (4);
 
     Pairwise exchange will select these two edges and replace them with edges such that the new edges are (1,2) and (3,2):
+    \end{tikzpicture}
+    \end{center}
+
     \begin{center}
     \begin{tikzpicture}[auto, node distance=3cm, every loop/.style={},thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
 
