@@ -1,14 +1,14 @@
 def NN(A, start):
-    """Nearest neighbor algorithm.
-    A is an NxN array indicating distance between N locations
-    start is the index of the starting location
-    Returns the path and cost of the found solution
+    """
+    A is an Nnxn matrix that indicates the distance between n locations.
+    start is the index of the starting location.
+    The algorithm returns the path and cost of the found solution
     """
     path = [start]
     cost = 0
     N = A.shape[0]
-    mask = np.ones(N, dtype=bool)  # boolean values indicating which 
-                                   # locations have not been visited
+    mask = np.ones(N, dtype=bool)  # bool values indicates which locations have not been visited.
+                                   
     mask[start] = False
 
     for i in range(N-1):
