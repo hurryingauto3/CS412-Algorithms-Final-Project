@@ -1,0 +1,13 @@
+
+time
+matplotlib.pyplot
+numpy
+networkx
+heapq
+copy 
+random
+tspsolve
+itertools
+random
+sys
+jupyter-notebook
