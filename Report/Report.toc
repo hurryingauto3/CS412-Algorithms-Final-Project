@@ -1,0 +1,22 @@
+\boolfalse {citerequest}\boolfalse {citetracker}\boolfalse {pagetracker}\boolfalse {backtracker}\relax 
+\babel@toc {english}{}
+\contentsline {chapter}{\numberline {1}Introduction}{1}{chapter.1}%
+\contentsline {chapter}{\numberline {2}Design Techniques}{2}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Exact Solution}{2}{section.2.1}%
+\contentsline {subsection}{\numberline {2.1.1}1. Held-Karp Algorithm}{2}{subsection.2.1.1}%
+\contentsline {section}{\numberline {2.2}Approximate Solutions}{4}{section.2.2}%
+\contentsline {subsection}{\numberline {2.2.1}Nearest Neighbour Algorithm}{4}{subsection.2.2.1}%
+\contentsline {subsection}{\numberline {2.2.2}Pairwise Exchange Algorithm}{4}{subsection.2.2.2}%
+\contentsline {subsection}{\numberline {2.2.3}Christofides–Serdyukov Algorithm}{6}{subsection.2.2.3}%
+\contentsline {chapter}{\numberline {3}Theoretical Run time Analysis}{9}{chapter.3}%
+\contentsline {subsection}{\numberline {3.0.1}Held Karp Algorithm}{9}{subsection.3.0.1}%
+\contentsline {subsection}{\numberline {3.0.2}Nearest Neighbor Algorithm }{9}{subsection.3.0.2}%
+\contentsline {subsection}{\numberline {3.0.3}Pairwise Exchange Algorithm}{10}{subsection.3.0.3}%
+\contentsline {subsection}{\numberline {3.0.4}Christofides–Serdyukov Algorithm}{10}{subsection.3.0.4}%
+\contentsline {chapter}{\numberline {4}Empirical Run time Analysis}{12}{chapter.4}%
+\contentsline {subsection}{\numberline {4.0.1}Held-Karp}{12}{subsection.4.0.1}%
+\contentsline {subsection}{\numberline {4.0.2}Nearest Neighbor}{13}{subsection.4.0.2}%
+\contentsline {subsection}{\numberline {4.0.3}Pairwise Exchange Method}{14}{subsection.4.0.3}%
+\contentsline {subsection}{\numberline {4.0.4}Christofides–Serdyukov Algorithm}{15}{subsection.4.0.4}%
+\contentsline {chapter}{\numberline {5}Conclusion}{17}{chapter.5}%
+\contentsline {chapter}{\numberline {6}References}{18}{chapter.6}%
